@@ -18,13 +18,12 @@ function fetchBreeds() {
 
 
 function fetchCatByBreed(breedId = "abys") {
-    const CAT_URL = `https://api.thecatapi.com/v1/images/search?breed_ids=${breedId}`
-    
+    const CAT_URL = `https://api.thecatapi.com/v1/images/search?api_key=${API_KEY}&breed_ids=${breedId}`
     return fetch(CAT_URL)
         .then(resp => {
             if (!resp.ok) {
                 throw new Error(resp.statusText)
-            }            
+            }     
             return resp.json()
         })
 }

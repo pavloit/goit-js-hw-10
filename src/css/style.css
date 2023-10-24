@@ -1,6 +1,9 @@
 
 body {
-    background-color: aqua;
+    background-image: 
+    url("../img/photo.avif");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .cat-info {
@@ -16,14 +19,28 @@ body {
 }
 
 .description {
+    border-radius: 20px;
     width: 400px;
     max-width: 35vw;
+    background-color: rgba(238, 197, 12, 0.2);
 }
 
-h3 {
+h2 {
     margin: 0;
 }
 
 .dn {
     display: none;
+}
+
+.select-container {
+    width: 200px;
+}
+
+img {
+    border-radius: 20px;
+}
+
+p {
+    font-size: 18px;
 }

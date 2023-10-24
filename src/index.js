@@ -1,8 +1,8 @@
 import { Notify } from "notiflix"
 import SlimSelect from 'slim-select'
+import 'slim-select/dist/slimselect.css';
 import './css/style.css'
 import { fetchBreeds, fetchCatByBreed } from "./js/cat-api"
-
 
 const elements = {
     select: document.querySelector('.breed-select'),
@@ -14,52 +14,48 @@ const elements = {
 elements.error.classList.add('dn')
 elements.select.classList.add('dn')
 
-const catsInfo = []
-let catType = ""
-
 fetchBreeds()
     .then(data => {
-        data.map(({ id, description, name, temperament }) =>
-            catsInfo.push({ id, description, name, temperament }))
-        return createOptions(catsInfo)
+        createOptions(data)
     })
-     .catch(err => errorMessage())
+    .then(() => new SlimSelect({ select: '.breed-select' }))
+    .catch(() => errorMessage())
 
 function createOptions(arr) {
     elements.select.classList.remove('dn')
-    elements.loader.classList.remove('dn')
-    const selectOptions = arr.map(({id, name} ) => `
+    elements.loader.classList.add('dn')
+    elements.select.innerHTML = `<option data-placeholder="true">Виберіть котика</option>${arr.map(({ id, name }) => `
         <option value="${id}">${name}</option>
         `)
-        .join('')
-    elements.select.innerHTML = selectOptions;
-    fetchCatByBreed(elements.select.value)
-        .then(data => createCard(elements.select.value, data[0].url))         
-        .catch(err => errorMessage());
-    elements.select.addEventListener('input', onInput)
+        .join('')}`
 }
 
+elements.select.addEventListener('change', onInput)
+
+
 function errorMessage() {
-    return Notify.failure(`Oops! Something went wrong! Try reloading the page!`)
+    elements.loader.classList.add('dn')
+    return Notify.failure(`Oops! Something went wrong! Try reloading the page!`,
+        { timeout: 4000 })
 }
 
 function onInput(event) {
     elements.card.classList.add('dn')
     elements.loader.classList.remove('dn')
 
-    catType = event.target.value
-    fetchCatByBreed(catType)
-        .then(data => createCard(catType, data[0].url))         
-        .catch(err => errorMessage());   
+    fetchCatByBreed(event.target.value)
+        .then(data => createCard(data[0]))         
+        .catch(() => errorMessage());   
 }
 
-function createCard(id, url) {
-    const { name, description, temperament } = catsInfo.find(el => id === el.id)
+function createCard(data) {
+  const { breeds, url } = data;
+  const { name, temperament, description } = breeds[0];
     elements.card.innerHTML = `
         <div class="img-div"><img src="${url}" alt="cat photo" width="100%">
         </div>
         <div class="description">
-          <h3>${name}</h3>
+          <h2>${name}</h2>
           <p>${description}</p>
           <p><strong>Temperament: </strong>${temperament}</p>
         </div>
