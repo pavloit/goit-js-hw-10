@@ -14,14 +14,12 @@ body {
 
 .img-div {
     width: 500px;
-    max-width: 40vw;
     margin: 0;
 }
 
 .description {
     border-radius: 20px;
     width: 400px;
-    max-width: 35vw;
     background-color: rgba(238, 197, 12, 0.6);
 }
 
@@ -56,23 +54,27 @@ p {
 
 
     .description {
-        min-width: 320px;
-        max-width: 95%;
-        width: 95%;
+        box-sizing: border-box;
         margin: auto;
-        margin-top: 10px;
-        padding: 10px 10px;
+        padding: 5px;
+        max-width: 100%;
+        width: 97%;
+        min-width: 320px;
     }
 
     .cat-info {
         margin-top: 20px;
-        width: 95%;
+        margin-left: 5px;
+        margin-right: 5px;
         display: block;
-        min-width: 320px;
+        min-width: 330px;
     }
 
     .img-div {
-        min-width: 100%;
+        padding: 5px;
+        max-width: 100%;
+        width: 97%;
+        min-width: 320px;
     }
     
     .select-container {
